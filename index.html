@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NConnect Solution - Replicated Website</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Base styles for Inter font and anti-aliasing */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #333; /* Default text color */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        /* Custom styles for section backgrounds with placeholder images */
+        /* These can be replaced with actual high-quality images */
+        .bg-hero {
+            background-image: url('https://t3.ftcdn.net/jpg/01/80/81/92/360_F_180819212_BLS3dy161fPNCdvEsVk2srrS90WgO2XQ.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .bg-about {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREyQtmzKMtAmhPkbfKV0OAuSk7i8XIkyhJIQ&s');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .bg-partners {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .bg-testimonials {
+            background-image: url('https://t3.ftcdn.net/jpg/02/02/17/98/360_F_202179892_E8WH989QcZtBP2RKEBEjIOoNxZTEOOBT.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Custom styling for overlays to ensure text readability */
+        .overlay-dark-60 { background-color: rgba(0, 0, 0, 0.6); }
+        .overlay-dark-75 { background-color: rgba(0, 0, 0, 0.75); }
+        .overlay-white-90 { background-color: rgba(255, 255, 255, 0.9); }
+        /* Added a subtle gradient overlay for the hero section */
+        .overlay-hero-gradient { background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.7) 100%); }
+
+        /* Custom icon styling for solutions section cards */
+        .solution-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px; /* Slightly larger icon */
+            height: 64px; /* Slightly larger icon */
+            border-radius: 50%;
+            background-color: #fef2f2; /* Light red background from Tailwind's red-50 */
+            color: #ef4444; /* Red color for icons from Tailwind's red-500 */
+            font-size: 2.25rem; /* Larger icon size */
+            margin-bottom: 1.5rem; /* More space below icon */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Stronger shadow */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .solution-card:hover .solution-icon {
+            transform: translateY(-8px) rotate(5deg); /* More pronounced lift and slight rotation */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Even stronger shadow on hover */
+        }
+        .solution-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .solution-card:hover {
+            transform: translateY(-8px); /* Lift the card on hover */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25); /* More intense shadow */
+        }
+
+        /* Keyframe Animations for entrance effects */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-80px); } /* More pronounced slide */
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(80px); } /* More pronounced slide */
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Animation classes for elements with staggered delays */
+        .animate-fade-in-down { animation: fadeInDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .animate-fade-in-up { animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .animate-fade-in { animation: fadeIn 1.2s ease-out forwards; }
+        .animate-slide-in-left { animation: slideInLeft 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .animate-slide-in-right { animation: slideInRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
+        /* Classes for scroll-triggered animations (visibility observer) */
+        .section-animate {
+            opacity: 0;
+            transform: translateY(60px); /* Start further down */
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out; /* Slower, smoother transition */
+        }
+        .section-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .logo-animate {
+            opacity: 0;
+            transform: scale(0.7); /* Start smaller */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Slower animation */
+        }
+        .logo-animate.is-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Carousel specific styles for smooth transitions */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel-item {
+            display: none;
+            width: 100%;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* Flexbox for vertical stacking and centering within testimonial cards */
+            display: flex; /* Changed from grid to flex for consistent vertical centering */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center; /* Ensure text is centered */
+            transition: opacity 0.7s ease-in-out; /* Smooth fade for carousel items */
+        }
+        .carousel-item.active {
+            display: flex; /* Keep as flex when active */
+            opacity: 1;
+            position: relative; /* Active item takes up space */
+        }
+        /* Partner carousel item specifically for grid layout */
+        #partner-carousel .carousel-item.active {
+            display: grid; /* Keep grid for partner logos */
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem 2rem;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem; /* More space for dots */
+            gap: 0.75rem; /* Larger gap between dots */
+        }
+        .carousel-dot {
+            width: 12px; /* Larger dots */
+            height: 12px; /* Larger dots */
+            background-color: #9ca3af; /* gray-400 */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .carousel-dot:hover {
+            transform: scale(1.2); /* Pop on hover */
+        }
+        .carousel-dot.active {
+            background-color: #dc2626; /* red-600 */
+            transform: scale(1.2); /* Larger when active */
+        }
+
+        /* Navigation active link style with subtle underline */
+        .nav-link.active {
+            color: #dc2626; /* red-600 */
+            font-weight: 700; /* Inter-Bold */
+            transform: scale(1.05);
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #dc2626;
+            border-radius: 2px;
+            animation: underlineGrow 0.3s ease-out forwards;
+        }
+        @keyframes underlineGrow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        /* Testimonial specific styling for quotes */
+        .testimonial-quote {
+            position: relative; /* For positioning quote marks */
+            padding: 0 2rem; /* Padding to ensure quote marks don't overlap text */
+            font-size: 1.35rem; /* Slightly larger quote text */
+            line-height: 1.7; /* Improved readability */
+        }
+        .testimonial-quote::before {
+            content: "“";
+            font-family: serif;
+            font-size: 5rem; /* Larger quote mark */
+            color: #ef4444; /* red-500 */
+            line-height: 0;
+            position: absolute;
+            top: -0.5em; /* Adjust position */
+            left: 0;
+            opacity: 0.8;
+            z-index: 0; /* Behind text */
+        }
+
+        .testimonial-quote::after {
+            content: "”";
+            font-family: serif;
+            font-size: 5rem; /* Larger quote mark */
+            color: #ef4444; /* red-500 */
+            line-height: 0;
+            position: absolute;
+            bottom: -0.5em; /* Adjust position */
+            right: 0;
+            opacity: 0.8;
+            z-index: 0; /* Behind text */
+        }
+        /* Ensure the text is above the pseudo-elements */
+        .testimonial-quote p {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-lg py-4 px-6 md:px-12 fixed w-full z-50 border-b border-gray-100">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="https://placehold.co/50x50/d90000/ffffff?text=N" alt="NConnect Logo" class="h-12 w-12 rounded-full mr-3 shadow-md transform hover:scale-110 transition duration-300">
+                <span class="text-2xl font-extrabold text-gray-800">NCONNECT <span class="text-red-600">SOLUTION</span></span>
+            </div>
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#hero" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">HOME</a>
+                <a href="#solutions" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">SOLUTIONS</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">ABOUT US</a>
+                <a href="#mission-vision" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">MISSION & VISION</a>
+                <a href="#partners" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">PARTNERS</a>
+                <a href="#testimonials" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">TESTIMONIALS</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition duration-300 transform hover:scale-105">CONTACT</a>
+            </nav>
+            <!-- Mobile Menu Button (Hidden on larger screens) -->
+            <button class="md:hidden text-gray-600 focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-20"> <!-- Padding to account for fixed header -->
+        <!-- Hero Section -->
+        <section id="hero" class="bg-hero h-screen flex items-center justify-center text-white relative overflow-hidden">
+            <div class="absolute inset-0 overlay-dark-60 overlay-hero-gradient"></div> <!-- Overlay for text readability with gradient -->
+            <div class="container mx-auto px-6 md:px-12 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight drop-shadow-lg animate-fade-in-down">WELCOME TO NCONNECT SOLUTION !!</h1>
+                <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-10 text-red-400 drop-shadow-md animate-fade-in-up">Focus on business, <span class="text-white">we handle IT</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 text-lg md:text-xl font-medium">
+                    <p class="bg-gray-900 bg-opacity-75 p-5 rounded-xl shadow-md hover:bg-opacity-90 transition duration-300 animate-fade-in">Infrastructure and Networking</p>
+                    <p class="bg-gray-900 bg-opacity-75 p-5 rounded-xl shadow-md hover:bg-opacity-90 transition duration-300 animate-fade-in delay-100">Datacenter Solutions</p>
+                    <p class="bg-gray-900 bg-opacity-75 p-5 rounded-xl shadow-md hover:bg-opacity-90 transition duration-300 animate-fade-in delay-200">Managed IT Services</p>
+                    <p class="bg-gray-900 bg-opacity-75 p-5 rounded-xl shadow-md hover:bg-opacity-90 transition duration-300 animate-fade-in delay-300">Cloud Computing</p>
+                    <p class="bg-gray-900 bg-opacity-75 p-5 rounded-xl shadow-md hover:bg-opacity-90 transition duration-300 animate-fade-in delay-400">Security & Compliance</p>
+                    <p class="bg-gray-900 bg-opacity-75 p-5 rounded-xl shadow-md hover:bg-opacity-90 transition duration-300 animate-fade-in delay-400">Contract Renewals</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section -->
+        <section id="solutions" class="py-20 md:py-32 bg-gray-50 section-animate">
+            <div class="container mx-auto px-6 md:px-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 md:mb-20 text-gray-900">OUR SOLUTIONS</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
+                    <!-- Solution 1 -->
+                    <div class="solution-card bg-white p-8 rounded-2xl shadow-xl flex flex-col items-start hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <div class="solution-icon">⚙️</div> <!-- Gear icon for Infrastructure -->
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-900">INFRASTRUCTURE AND NETWORKING</h3>
+                        <p class="text-gray-600 text-base leading-relaxed">Robust, scalable networking solutions tailored to your business. We design, deploy, and manage your infrastructure, ensuring seamless connectivity and optimal performance.</p>
+                    </div>
+                    <!-- Solution 2 -->
+                    <div class="solution-card bg-white p-8 rounded-2xl shadow-xl flex flex-col items-start hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <div class="solution-icon">💾</div> <!-- Database icon for Datacenter -->
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-900">DATACENTER SOLUTIONS</h3>
+                        <p class="text-gray-600 text-base leading-relaxed">Secure, efficient datacenter design and management. We provide reliable infrastructure, colocation, and disaster recovery, ensuring business continuity and data integrity.</p>
+                    </div>
+                    <!-- Solution 3 -->
+                    <div class="solution-card bg-white p-8 rounded-2xl shadow-xl flex flex-col items-start hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <div class="solution-icon">☁️</div> <!-- Cloud icon for Cloud Computing -->
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-900">CLOUD COMPUTING</h3>
+                        <p class="text-gray-600 text-base leading-relaxed">Cloud computing offers unparalleled flexibility and scalability, transforming how businesses operate. It allows organizations to access and utilize computing resources as servers, storage, applications, and services over the Internet, eliminating the need for extensive on-premises infrastructure.</p>
+                    </div>
+                    <!-- Solution 4 -->
+                    <div class="solution-card bg-white p-8 rounded-2xl shadow-xl flex flex-col items-start hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <div class="solution-icon">🔒</div> <!-- Lock icon for Security -->
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-900">SECURITY & COMPLIANCE</h3>
+                        <p class="text-gray-600 text-base leading-relaxed">Comprehensive security and compliance solutions. We protect your data and systems with advanced security measures, ensuring regulatory adherence and minimizing risk.</p>
+                    </div>
+                    <!-- Solution 5 -->
+                    <div class="solution-card bg-white p-8 rounded-2xl shadow-xl flex flex-col items-start hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <div class="solution-icon">📄</div> <!-- Document icon for Contracts -->
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-900">CONTRACT RENEWALS</h3>
+                        <p class="text-gray-600 text-base leading-relaxed">Streamlined contract renewal management. We handle the complexities of renewals, ensuring optimal terms and minimizing disruptions to your essential services.</p>
+                    </div>
+                    <!-- Solution 6 -->
+                    <div class="solution-card bg-white p-8 rounded-2xl shadow-xl flex flex-col items-start hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <div class="solution-icon">👨‍💻</div> <!-- Person with laptop icon for Managed IT -->
+                        <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-900">MANAGED IT SERVICES</h3>
+                        <p class="text-gray-600 text-base leading-relaxed">Proactive IT management and support. We handle day-to-day IT operations, freeing you to focus on strategic business growth and minimizing downtime.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About NConnect Section -->
+        <section id="about" class="py-20 md:py-32 bg-about relative section-animate">
+            <div class="absolute inset-0 overlay-dark-75"></div> <!-- Darker overlay -->
+            <div class="container mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center relative z-10">
+                <div class="lg:w-1/2 text-white lg:pr-16 mb-12 lg:mb-0 animate-slide-in-left">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 md:mb-8 text-red-400 drop-shadow-md">ABOUT NCONNECT</h2>
+                    <p class="mb-5 text-lg leading-relaxed text-gray-200">NCONNECT SOLUTION thrives on innovation, efficiency, and excellence, aiming to transform IT solutions. We craft customized technology services, understanding that each business has unique needs.</p>
+                    <p class="mb-5 text-lg leading-relaxed text-gray-200">We prioritize understanding client specifics, industry nuances, and long-term goals. This allows us to create tailored IT strategies, not generic solutions. Our team of seasoned professionals stays ahead of tech trends, guaranteeing clients benefit from the most advanced, efficient solutions available.</p>
+                    <p class="mb-10 text-lg leading-relaxed text-gray-200">Whether it's cloud, cybersecurity, networking, or software, we focus on maximizing efficiency and minimizing disruption. We empower clients to thrive in the digital age. At NCONNECT SOLUTION, client success is our success, building partnerships based on trust and mutual growth.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-14 rounded-full shadow-xl transition duration-300 transform hover:scale-105">VIEW SOLUTIONS</button>
+                </div>
+                <div class="lg:w-1/2 flex justify-center items-center animate-slide-in-right">
+                    <img src="https://placehold.co/600x400/cccccc/ffffff?text=About+Image" alt="About NConnect Visual" class="rounded-2xl shadow-2xl w-full max-w-lg transform hover:scale-102 transition duration-300 border-4 border-red-500">
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision Section -->
+        <section id="mission-vision" class="py-20 md:py-32 bg-white section-animate">
+            <div class="container mx-auto px-6 md:px-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 md:mb-20 text-gray-900">OUR MISSION & VISION</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+                    <!-- Mission -->
+                    <div class="flex flex-col items-center bg-gray-50 p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <img src="https://placehold.co/120x120/ef4444/ffffff?text=Mission" alt="Mission Icon" class="w-32 h-32 mb-8 rounded-full shadow-lg flex-shrink-0 border-4 border-red-500">
+                        <div class="text-center">
+                            <h3 class="text-2xl md:text-3xl font-bold mb-3 text-gray-900">Mission</h3>
+                            <p class="text-gray-700 text-lg leading-relaxed mb-4">To deliver cutting-edge IT solutions that enable businesses to thrive in a digital world.</p>
+                            <p class="text-gray-600 text-base leading-relaxed">We provide innovative IT solutions, empowering businesses to succeed in the digital age. By understanding evolving needs, we deliver tailored technology that drives growth, enhances efficiency, and ensures secure, seamless operations, enabling our clients to excel in a dynamic market.</p>
+                        </div>
+                    </div>
+                    <!-- Vision -->
+                    <div class="flex flex-col items-center bg-gray-50 p-10 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+                        <img src="https://placehold.co/120x120/ef4444/ffffff?text=Vision" alt="Vision Icon" class="w-32 h-32 mb-8 rounded-full shadow-lg flex-shrink-0 border-4 border-red-500">
+                        <div class="text-center">
+                            <h3 class="text-2xl md:text-3xl font-bold mb-3 text-gray-900">Vision</h3>
+                            <p class="text-gray-700 text-lg leading-relaxed mb-4">To be the leading IT system integration partner known for reliability, innovation, and excellence.</p>
+                            <p class="text-gray-600 text-base leading-relaxed">Our goal is to be the premier IT integrator, recognized for dependable, innovative, and high-quality solutions. We aim to build lasting partnerships through consistent excellence, driving client success by seamlessly integrating advanced technologies and delivering reliable, cutting-edge IT systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted Tech Partners Section -->
+        <section id="partners" class="py-20 md:py-32 bg-partners bg-fixed relative section-animate">
+            <div class="absolute inset-0 overlay-white-90"></div>
+            <div class="container mx-auto px-6 md:px-12 text-center relative z-10 bg-white p-10 rounded-2xl shadow-2xl border border-gray-100">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-gray-900">TRUSTED TECH PARTNERS</h2>
+                <p class="text-xl md:text-2xl font-medium mb-10 text-gray-700">The Biggest Names in Technology, Brought to You by NCONNECT.</p>
+                <div id="partner-carousel" class="relative carousel-container h-48 md:h-56 flex items-center justify-center">
+                    <!-- Carousel Item 1 -->
+                    <div class="carousel-item active">
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-blue-100 flex items-center justify-center shadow-md text-blue-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">MS</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-orange-100 flex items-center justify-center shadow-md text-orange-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">AM</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-red-100 flex items-center justify-center shadow-md text-red-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">GO</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gray-100 flex items-center justify-center shadow-md text-gray-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">AP</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-indigo-100 flex items-center justify-center shadow-md text-indigo-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">IB</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-yellow-100 flex items-center justify-center shadow-md text-yellow-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">OR</div>
+                    </div>
+                    <!-- Carousel Item 2 -->
+                    <div class="carousel-item">
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-purple-100 flex items-center justify-center shadow-md text-purple-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">SA</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-teal-100 flex items-center justify-center shadow-md text-teal-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">CI</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-cyan-100 flex items-center justify-center shadow-md text-cyan-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">DE</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-pink-100 flex items-center justify-center shadow-md text-pink-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">HP</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-lime-100 flex items-center justify-center shadow-md text-lime-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">RH</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-fuchsia-100 flex items-center justify-center shadow-md text-fuchsia-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">VM</div>
+                    </div>
+                    <!-- Carousel Item 3 -->
+                    <div class="carousel-item">
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-sky-100 flex items-center justify-center shadow-md text-sky-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">AZ</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-rose-100 flex items-center justify-center shadow-md text-rose-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">AD</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-emerald-100 flex items-center justify-center shadow-md text-emerald-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">SF</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-zinc-100 flex items-center justify-center shadow-md text-zinc-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">NV</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-amber-100 flex items-center justify-center shadow-md text-amber-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">PA</div>
+                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-violet-100 flex items-center justify-center shadow-md text-violet-800 font-bold text-xl md:text-2xl transition duration-300 transform hover:scale-110 logo-animate">FO</div>
+                    </div>
+                </div>
+                <div id="partner-dots" class="carousel-dots">
+                    <span class="carousel-dot active" data-slide="0"></span>
+                    <span class="carousel-dot" data-slide="1"></span>
+                    <span class="carousel-dot" data-slide="2"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Success Stories Section -->
+        <section id="testimonials" class="py-20 md:py-32 bg-testimonials relative bg-fixed section-animate">
+            <div class="absolute inset-0 overlay-dark-75"></div>
+            <div class="container mx-auto px-6 md:px-12 relative z-10 text-white">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 md:mb-20 drop-shadow-lg">CUSTOMER SUCCESS STORIES</h2>
+                <div id="testimonial-carousel" class="relative carousel-container min-h-[400px] md:min-h-[350px] flex items-center justify-center">
+                    <div class="carousel-item active bg-gray-900 bg-opacity-80 p-8 md:p-12 rounded-2xl shadow-2xl max-w-4xl mx-auto text-center border border-red-500 flex flex-col items-center justify-center">
+                        <img src="https://placehold.co/120x120/cccccc/ffffff?text=Avatar+1" alt="Customer Avatar" class="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto mb-8 border-4 border-red-600 shadow-lg">
+                        <p class="text-xl md:text-2xl italic mb-8 leading-relaxed testimonial-quote">NCONNECT Solution helped us completely revamp our data center infrastructure. We were facing severe latency and downtime issues, impacting production reporting and ERP system performance. Their team not only designed a high-availability architecture but also migrated our systems with zero disruption. We've now seen a 40% boost in application performance and drastically improved user satisfaction across our factories.</p>
+                        <p class="font-bold text-xl md:text-2xl text-red-400 mb-2">Priya Nair</p>
+                        <p class="text-base text-gray-300">CIO, Trident Engineering Ltd.</p>
+                    </div>
+                    <div class="carousel-item bg-gray-900 bg-opacity-80 p-8 md:p-12 rounded-2xl shadow-2xl max-w-4xl mx-auto text-center border border-red-500 flex flex-col items-center justify-center">
+                        <img src="https://placehold.co/120x120/cccccc/ffffff?text=Avatar+2" alt="Customer Avatar" class="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto mb-8 border-4 border-red-600 shadow-lg">
+                        <p class="text-xl md:text-2xl italic mb-8 leading-relaxed testimonial-quote">Scaling our cloud infrastructure to meet growing customer demand was a constant struggle for our team. NCONNECT Solution provided us with a fully automated cloud management platform with clear cost controls. Not only did we optimize our cloud spend by 30%, but we also achieved much faster deployment cycles. They truly became an extended arm of our DevOps team.</p>
+                        <p class="font-bold text-xl md:text-2xl text-red-400 mb-2">Dharmesh Vats</p>
+                        <p class="text-base text-gray-300">Founder and CEO at Global Learning House Pvt Ltd</p>
+                    </div>
+                    <div class="carousel-item bg-gray-900 bg-opacity-80 p-8 md:p-12 rounded-2xl shadow-2xl max-w-4xl mx-auto text-center border border-red-500 flex flex-col items-center justify-center">
+                        <img src="https://placehold.co/120x120/cccccc/ffffff?text=Avatar+3" alt="Customer Avatar" class="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto mb-8 border-4 border-red-600 shadow-lg">
+                        <p class="text-xl md:text-2xl italic mb-8 leading-relaxed testimonial-quote">We were struggling to provide seamless online learning during the pandemic due to poor network reliability and lack of an integrated platform. NCONNECT Solution designed and implemented a secure, scalable virtual learning platform integrated with our LMS and video conferencing tools. The student and faculty experience improved tremendously. We are now fully confident in our digital delivery capabilities.</p>
+                        <p class="font-bold text-xl md:text-2xl text-red-400 mb-2">Hemant Kadam</p>
+                        <p class="text-base text-gray-300">Director - IT & Digital Learning, Harmony University</p>
+                    </div>
+                    <div class="carousel-item bg-gray-900 bg-opacity-80 p-8 md:p-12 rounded-2xl shadow-2xl max-w-4xl mx-auto text-center border border-red-500 flex flex-col items-center justify-center">
+                        <img src="https://placehold.co/120x120/cccccc/ffffff?text=Avatar+4" alt="Customer Avatar" class="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto mb-8 border-4 border-red-600 shadow-lg">
+                        <p class="text-xl md:text-2xl italic mb-8 leading-relaxed testimonial-quote">Our hospital network was facing challenges with siloed systems and lack of data integration across departments. NCONNECT Solution helped us design and deploy a comprehensive healthcare IT solution with centralized EMR, secure access control, and improved interoperability. The outcome is faster clinical decisions, better patient experience, and improved regulatory compliance. I highly recommend them.</p>
+                        <p class="font-bold text-xl md:text-2xl text-red-400 mb-2">Saurabh Jain</p>
+                        <p class="text-base text-gray-300">CIO, LifeLine Hospitals Group</p>
+                    </div>
+                </div>
+                <div id="testimonial-dots" class="carousel-dots">
+                    <span class="carousel-dot active" data-slide="0"></span>
+                    <span class="carousel-dot" data-slide="1"></span>
+                    <span class="carousel-dot" data-slide="2"></span>
+                    <span class="carousel-dot" data-slide="3"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section id="contact" class="py-20 md:py-32 bg-gray-100 section-animate">
+            <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 bg-white p-10 rounded-2xl shadow-2xl border border-gray-100">
+                <!-- Let's Talk Column -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-900">LET'S TALK</h2>
+                    <h3 class="text-xl md:text-2xl font-semibold mb-4 text-gray-800">Corporate Office</h3>
+                    <p class="text-gray-700 mb-3">The Jewel Building, Roxy Chambers</p>
+                    <p class="text-gray-700 mb-3">1st Floor, Office No- 109,</p>
+                    <p class="text-gray-700 mb-3">Charni Road(E), Opera House,</p>
+                    <p class="text-gray-700 mb-8">Girgaon, Mumbai-400004</p>
+
+                    <p class="text-gray-700 mb-3"><strong>Phone:</strong> <a href="tel:+919920387641" class="text-red-600 hover:underline transition duration-200">(+91) 9920387641</a></p>
+                    <p class="text-gray-700 mb-8"><strong>Email:</strong> <a href="mailto:info@nconnectsolution.com" class="text-red-600 hover:underline transition duration-200">info@nconnectsolution.com</a> | <a href="mailto:info@nconnectsolution.com" class="text-red-600 hover:underline transition duration-200">info@nconnectsolution.com</a></p>
+
+                    <div class="flex space-x-7 mt-8">
+                        <a href="#" class="text-gray-600 hover:text-red-600 transition duration-300 transform hover:scale-125">
+                            <i class="fab fa-twitter text-3xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-red-600 transition duration-300 transform hover:scale-125">
+                            <i class="fab fa-instagram text-3xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-red-600 transition duration-300 transform hover:scale-125">
+                            <i class="fab fa-facebook-f text-3xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-red-600 transition duration-300 transform hover:scale-125">
+                            <i class="fab fa-linkedin-in text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Us Form Column -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-900">SEND US A MESSAGE</h2>
+                    <form class="space-y-6">
+                        <div>
+                            <label for="fullName" class="block text-base font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" class="mt-1 block w-full p-3.5 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Your Full Name">
+                        </div>
+                        <div>
+                            <label for="contactNumber" class="block text-base font-medium text-gray-700 mb-2">Contact Number</label>
+                            <input type="text" id="contactNumber" name="contactNumber" class="mt-1 block w-full p-3.5 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Your Contact Number">
+                        </div>
+                        <div>
+                            <label for="emailAddress" class="block text-base font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="emailAddress" name="emailAddress" class="mt-1 block w-full p-3.5 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Your Email Address">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-base font-medium text-gray-700 mb-2">Message</label>
+                            <textarea id="message" name="message" rows="6" class="mt-1 block w-full p-3.5 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500 transition duration-200" placeholder="Your Message"></textarea>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <label for="captcha" class="text-base font-medium text-gray-700">Enter Captcha Value:</label>
+                            <input type="text" id="captcha" name="captcha" class="w-full sm:w-36 p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500 text-center font-bold text-xl bg-gray-50 transition duration-200" placeholder="XXXX">
+                            <span class="bg-gray-200 p-3 rounded-lg font-bold text-gray-700 text-xl select-none">8826</span>
+                            <button type="button" class="text-red-600 hover:underline text-sm font-medium">Refresh</button>
+                        </div>
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-16 rounded-full shadow-xl transition duration-300 transform hover:scale-105 w-full sm:w-auto">SEND MESSAGE</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Google Map removed as per user request -->
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-900 text-white py-10 px-6 md:px-12">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center text-sm md:text-base">
+            <p class="mb-4 md:mb-0 text-gray-400">&copy; Copyrights 2020 All Rights Reserved at NCONNECT SOLUTION PVT. LTD.</p>
+            <nav class="flex flex-wrap justify-center space-x-6 md:space-x-8">
+                <a href="#hero" class="hover:text-red-600 transition duration-300">Home</a>
+                <a href="#about" class="hover:text-red-600 transition duration-300">About Us</a>
+                <a href="#solutions" class="hover:text-red-600 transition duration-300">Solutions</a>
+                <a href="#mission-vision" class="hover:text-red-600 transition duration-300">Mission & Vision</a>
+                <a href="#partners" class="hover:text-red-600 transition duration-300">Partners</a>
+                <a href="#testimonials" class="hover:text-red-600 transition duration-300">Testimonials</a>
+                <a href="#contact" class="hover:text-red-600 transition duration-300">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for scroll-triggered animations and carousel logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section-animate');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Observer for section animations and active navigation links
+            const observerOptions = {
+                root: null, /* viewport */
+                rootMargin: '-50% 0px -50% 0px', /* Adjust this to control when the active state changes */
+                threshold: 0 /* No threshold needed, as rootMargin handles it */
+            };
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add animation class
+                        entry.target.classList.add('is-visible');
+
+                        // Update active navigation link
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    } else {
+                        // Optional: remove animation class if you want to re-trigger on scroll back up
+                        // entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Partner Logo Carousel Logic
+            const partnerCarousel = document.getElementById('partner-carousel');
+            const partnerCarouselItems = partnerCarousel ? partnerCarousel.querySelectorAll('.carousel-item') : [];
+            const partnerCarouselDotsContainer = document.getElementById('partner-dots');
+            const partnerCarouselDots = partnerCarouselDotsContainer ? partnerCarouselDotsContainer.querySelectorAll('.carousel-dot') : [];
+            let currentPartnerSlide = 0;
+            let partnerInterval;
+
+            function showPartnerSlide(index) {
+                if (partnerCarouselItems.length === 0) return;
+
+                // Hide all items and deactivate all dots
+                partnerCarouselItems.forEach(item => item.classList.remove('active'));
+                partnerCarouselDots.forEach(dot => dot.classList.remove('active'));
+
+                // Show the current item and activate the current dot
+                partnerCarouselItems[index].classList.add('active');
+                partnerCarouselDots[index].classList.add('active');
+
+                // Adjust carousel container height based on active item
+                // Use setTimeout to allow the display:grid to apply before calculating height
+                setTimeout(() => {
+                    partnerCarousel.style.height = partnerCarouselItems[index].offsetHeight + 'px';
+                }, 50);
+            }
+
+            function nextPartnerSlide() {
+                currentPartnerSlide = (currentPartnerSlide + 1) % partnerCarouselItems.length;
+                showPartnerSlide(currentPartnerSlide);
+            }
+
+            function startPartnerCarousel() {
+                if (partnerCarouselItems.length > 1) {
+                    partnerInterval = setInterval(nextPartnerSlide, 3000); // Change slide every 3 seconds
+                }
+            }
+
+            function stopPartnerCarousel() {
+                clearInterval(partnerInterval);
+            }
+
+            partnerCarouselDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    stopPartnerCarousel();
+                    currentPartnerSlide = parseInt(this.dataset.slide);
+                    showPartnerSlide(currentPartnerSlide);
+                    startPartnerCarousel(); // Restart carousel after manual navigation
+                });
+            });
+
+            // Testimonial Carousel Logic
+            const testimonialCarousel = document.getElementById('testimonial-carousel');
+            const testimonialCarouselItems = testimonialCarousel ? testimonialCarousel.querySelectorAll('.carousel-item') : [];
+            const testimonialCarouselDotsContainer = document.getElementById('testimonial-dots');
+            const testimonialCarouselDots = testimonialCarouselDotsContainer ? testimonialCarouselDotsContainer.querySelectorAll('.carousel-dot') : [];
+            let currentTestimonialSlide = 0;
+            let testimonialInterval;
+
+            function showTestimonialSlide(index) {
+                if (testimonialCarouselItems.length === 0) return;
+
+                // Hide all items and deactivate all dots
+                testimonialCarouselItems.forEach(item => item.classList.remove('active'));
+                testimonialCarouselDots.forEach(dot => dot.classList.remove('active'));
+
+                // Show the current item and activate the current dot
+                testimonialCarouselItems[index].classList.add('active');
+                testimonialCarouselDots[index].classList.add('active');
+
+                // Adjust carousel container height based on active item
+                // Use setTimeout to allow the display:flex to apply before calculating height
+                setTimeout(() => {
+                    testimonialCarousel.style.height = testimonialCarouselItems[index].offsetHeight + 'px';
+                }, 50);
+            }
+
+            function nextTestimonialSlide() {
+                currentTestimonialSlide = (currentTestimonialSlide + 1) % testimonialCarouselItems.length;
+                showTestimonialSlide(currentTestimonialSlide);
+            }
+
+            function startTestimonialCarousel() {
+                if (testimonialCarouselItems.length > 1) {
+                    testimonialInterval = setInterval(nextTestimonialSlide, 5000); // Change slide every 5 seconds
+                }
+            }
+
+            function stopTestimonialCarousel() {
+                clearInterval(testimonialInterval);
+            }
+
+            testimonialCarouselDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    stopTestimonialCarousel();
+                    currentTestimonialSlide = parseInt(this.dataset.slide);
+                    showTestimonialSlide(currentTestimonialSlide);
+                    startTestimonialCarousel(); // Restart carousel after manual navigation
+                });
+            });
+
+            // Initial display and start carousels
+            if (partnerCarouselItems.length > 0) {
+                showPartnerSlide(currentPartnerSlide);
+                startPartnerCarousel();
+            }
+            if (testimonialCarouselItems.length > 0) {
+                showTestimonialSlide(currentTestimonialSlide);
+                startTestimonialCarousel();
+            }
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
