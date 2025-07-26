@@ -30,21 +30,39 @@
         }
         /* Background image */
         .bg-about {
+    /* Hide background image by default (for mobile screens) */
+    background-image: none;
+    background-size: cover; /* Retain cover for consistency when it appears */
+    background-position: right center; /* Retain position for consistency when it appears */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.overlay-dark-75 {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.clip-right-slant {
+    /* For mobile/smaller screens: a subtle polygon slant */
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) { /* Apply styles only on large screens and up */
+    .bg-about {
+        /* Re-apply background image for large screens */
         background-image: url('https://img.freepik.com/free-photo/website-hosting-concept-with-bright-light_23-2149406783.jpg?semt=ais_hybrid&w=740&q=80');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        }
+    }
 
-        .overlay-dark-75 {
-        background-color: rgba(0, 0, 0, 0.75);
-        }
+    .clip-right-slant {
+        /* For large screens: increased the size of the polygon slant */
+        clip-path: polygon(0 0, 70% 0, 95% 100%, 0% 100%);
+    }
+}
 
-        .clip-right-slant {
-        clip-path: polygon(0 0, 55% 0, 90% 100%, 0% 100%);
-        overflow: hidden;
-        }
+
+
+
 
         .bg-partners {
 		background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxLCrrplMM8pSNO9oIUOvM1N0Al818KlrpNA&s');
@@ -387,20 +405,24 @@
 
         <!-- About NConnect Section -->
         <section id="about" class="bg-about relative">
-        <div class="flex flex-col lg:flex-row w-full items-stretch relative z-10">
-        <div class="lg:w-3/4 lg:pr-0 lg:mb-0 animate-slide-in-left bg-white bg-opacity-100 text-gray-800 shadow-lg clip-right-slant" style="padding: 5%; padding-right: 30%;">    
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 md:mb-8 text-black-300 drop-shadow-md">ABOUT NCONNECT</h2>
-                <div class="h-1 bg-red-600 mb-6" style="width: 10%;"></div>
-                <p class="mb-5 text-base md:text-lg leading-relaxed">NCONNECT SOLUTION thrives on innovation, efficiency, and excellence, aiming to transform IT solutions. We craft customized technology services, understanding that each business has unique needs.</p>
-                <p class="mb-5 text-base md:text-lg leading-relaxed">We prioritize understanding client specifics, industry nuances, and long-term goals. This allows us to create tailored IT strategies, not generic solutions. Our team of seasoned professionals stays ahead of tech trends, guaranteeing clients benefit from the most advanced, efficient solutions available.</p>
-                <p class="mb-8 md:mb-10 text-base md:text-lg leading-relaxed">Whether it's cloud, cybersecurity, networking, or software, we focus on maximizing efficiency and minimizing disruption. We empower clients to thrive in the digital age. At NCONNECT SOLUTION, client success is our success, building partnerships based on trust and mutual growth.</p>
-                <button class="bg-transparent border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold py-3.5 px-12 shadow-xl transition duration-300 transform hover:scale-105">
-                    VIEW SOLUTIONS
-                    </button>
-            </div>
-            <div class="lg:w-1/4 flex justify-center items-center animate-slide-in-right"></div>
+    <div class="flex flex-col lg:flex-row w-full items-stretch relative z-10">
+        <!-- Main container for text, set to half width on large screens -->
+        <div class="lg:w-1/2 lg:pr-0 lg:mb-0 animate-slide-in-left bg-white bg-opacity-100 text-gray-800 shadow-lg clip-right-slant" style="padding: 5%; padding-right: 5%;">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 md:mb-8 text-black-300 drop-shadow-md">ABOUT NCONNECT</h2>
+            <div class="h-1 bg-red-600 mb-6" style="width: 10%;"></div>
+            <!-- Adjusted <br> tags to allow more words per line -->
+            <p class="mb-5 text-base md:text-sm leading-relaxed">NCONNECT SOLUTION thrives on innovation, efficiency,<br> and excellence, aiming to transform IT solutions. We craft<br> customized technology services, understanding that each<br> business has unique needs.</p>
+            <p class="mb-5 text-base md:text-sm leading-relaxed">We prioritize understanding client specifics, industry nuances,<br> and long-term goals. This allows us to create tailored IT<br> strategies, not generic solutions. Our team of seasoned<br> professionals stays ahead of tech trends, guaranteeing clients<br> benefit from the most advanced, efficient solutions available.</p>
+            <p class="mb-8 md:mb-10 text-base md:text-sm leading-relaxed">Whether it's cloud, cybersecurity, networking, or software,<br> we focus on maximizing efficiency and minimizing disruption.<br> We empower clients to thrive in the digital age. At NCONNECT<br> SOLUTION, client success is our success, building partnerships<br> based on trust and mutual growth.</p>
         </div>
-        </section>
+        <!-- The remaining space (for image/visual) is also set to half width on large screens -->
+        <div class="lg:w-1/2 flex justify-center items-center animate-slide-in-right"></div>
+    </div>
+</section>
+
+
+
+
 
         <!-- Mission & Vision Section -->
         <section id="mission-vision" class="py-16 md:py-24 lg:py-32 bg-white section-animate px-4 sm:px-6 lg:px-8">
