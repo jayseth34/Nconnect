@@ -446,71 +446,50 @@
 
     <!-- Header Section -->
     <header class="bg-black bg-opacity-75 py-4 px-6 md:px-12 fixed w-full z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <!-- Logo -->
-           <div class="flex items-center">
-  <img src="assets/logo.png" alt="NConnect Logo"
-    class="h-12 w-auto shadow-lg brightness-110 contrast-125 transition duration-300 hover:scale-105 hover:brightness-125 hover:contrast-150">
-  <div class="ml-4 h-10 w-[2px] bg-red-500"></div>
-</div>
+  <div class="container mx-auto flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center">
+      <img src="assets/logo.png" alt="NConnect Logo"
+        class="h-12 w-auto shadow-lg brightness-110 contrast-125 transition duration-300 hover:scale-105 hover:brightness-125 hover:contrast-150">
+      <div class="ml-4 h-10 w-[2px] bg-red-500"></div>
+    </div>
 
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex space-x-8">
+      <a href="#hero" class="nav-link text-white hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">HOME</a>
+      <a href="solutions.html" class="nav-link text-white hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">SOLUTIONS</a>
+      <a href="about-us.html" class="nav-link text-white hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">ABOUT US</a>
+      <a href="#mission-vision" class="nav-link text-white hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">MISSION & VISION</a>
+      <a href="#partners" class="nav-link text-white hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">PARTNERS</a>
+      <a href="contact-us.html" class="nav-link text-white hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">CONTACT</a>
+    </nav>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex space-x-8">
-                <a href="#hero"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">HOME</a>
-                <a href="solutions.html"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">SOLUTIONS</a>
-                <a href="about-us.html"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">ABOUT
-                    US</a>
-                <a href="#mission-vision"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">MISSION
-                    & VISION</a>
-                <a href="#partners"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">PARTNERS</a>
-                <!-- <a href="#testimonials"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">TESTIMONIALS</a> -->
-                <a href="contact-us.html"
-                    class="nav-link text-gray-200 hover:text-red-400 font-semibold transition duration-300 transform hover:scale-105">CONTACT</a>
-            </nav>
-            <!-- Mobile Menu Button (Hamburger/Close Icon) -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-200 focus:outline-none">
-                <svg id="hamburger-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-                <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                    </path>
-                </svg>
-            </button>
-        </div>
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu"
-            class="mobile-menu fixed top-0 right-0 h-full w-64 bg-gray-900 text-white shadow-lg p-6 pt-24 z-40 md:hidden">
-            <nav class="flex flex-col space-y-6">
-                <a href="#hero"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">HOME</a>
-                <a href="solutions.html"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">SOLUTIONS</a>
-                <a href="about-us.html"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">ABOUT
-                    US</a>
-                <a href="#mission-vision"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">MISSION
-                    & VISION</a>
-                <a href="#partners"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">PARTNERS</a>
-                <!-- <a href="#testimonials"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">TESTIMONIALS</a> -->
-                <a href="contact-us.html"
-                    class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">CONTACT</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+      <svg id="hamburger-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation Menu -->
+  <div id="mobile-menu"
+    class="mobile-menu fixed top-0 right-0 h-full w-64 bg-black text-white shadow-lg p-6 pt-24 z-40 md:hidden">
+    <nav class="flex flex-col space-y-6">
+      <a href="#hero" class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">HOME</a>
+      <a href="solutions.html" class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">SOLUTIONS</a>
+      <a href="about-us.html" class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">ABOUT US</a>
+      <a href="#mission-vision" class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">MISSION & VISION</a>
+      <a href="#partners" class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">PARTNERS</a>
+      <a href="contact-us.html" class="mobile-nav-link text-white hover:text-red-400 font-semibold text-lg transition duration-300">CONTACT</a>
+    </nav>
+  </div>
+</header>
 
     <main class="pt-20"> <!-- Padding to account for fixed header -->
         <!-- Hero Section -->
@@ -1250,6 +1229,7 @@
 </body>
 
 </html>
+
 
 
 
