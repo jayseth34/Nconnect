@@ -143,11 +143,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                                    <input type="text" id="first-name" name="first-name" autocomplete="given-name" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
+                                    <input type="text" id="first-name" name="from_first_name" autocomplete="given-name" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
                                 </div>
                                 <div>
                                     <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                                    <input type="text" id="last-name" name="last-name" autocomplete="family-name" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
+                                    <input type="text" id="last-name" name="from_last_name" autocomplete="family-name" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
                                 </div>
                             </div>
 
@@ -155,24 +155,24 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                    <input type="email" id="email" name="email" autocomplete="email" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
+                                    <input type="email" id="email" name="from_email" autocomplete="email" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
                                 </div>
                                 <div>
                                     <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                                    <input type="tel" id="phone" name="phone" autocomplete="tel" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
+                                    <input type="tel" id="phone" name="from_phone" autocomplete="tel" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
                                 </div>
                             </div>
 
                             <!-- Company Name -->
                             <div>
                                 <label for="company-name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                                <input type="text" id="company-name" name="company-name" autocomplete="organization" class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
+                                <input type="text" id="company-name" name="from_company" autocomplete="organization" class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200">
                             </div>
 
                             <!-- Message -->
                             <div>
                                 <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                                <textarea id="message" name="message" rows="5" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200"></textarea>
+                                <textarea id="message" name="from_message" rows="5" required class="mt-1 block w-full px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200"></textarea>
                             </div>
                             
                             <!-- Submit Button -->
@@ -236,6 +236,9 @@
         </div>
     </footer>
 
+    <!-- EmailJS CDN -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
     <!-- JavaScript for Mobile Menu and Form functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -262,23 +265,57 @@
                 });
             });
 
-            // Contact Form Submission (Simple Example)
+            // Initialize EmailJS with your Public Key
+            // You will need to replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key.
+            // You can find this on your EmailJS dashboard under Account -> API Keys.
+            emailjs.init('8GPPjcdODiUdEwMb7');
+
+            // Contact Form Submission
             const contactForm = document.getElementById('contact-form');
             const confirmationMessage = document.getElementById('confirmation-message');
+            const submitButton = contactForm.querySelector('button[type="submit"]');
 
             contactForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                // In a real application, you would send this data to a server
-                console.log('Form Submitted!');
-                // Hide the form and show the confirmation message
-                contactForm.style.display = 'none';
-                confirmationMessage.style.display = 'block';
-                // Reset the form after a short delay
-                setTimeout(() => {
-                    confirmationMessage.style.display = 'none';
-                    contactForm.style.display = 'block';
-                    contactForm.reset();
-                }, 5000); // Message disappears after 5 seconds
+                
+                // Show a loading state on the button
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+
+                // Service ID and Template ID from your EmailJS dashboard
+                const serviceID = 'service_vfoj3pg'; // Replace with your Service ID
+                const templateID = 'template_aukpv3w'; // Replace with your Template ID
+
+                // Send the form data using emailjs.sendForm()
+                emailjs.sendForm(serviceID, templateID, this)
+                    .then(() => {
+                        console.log('Email sent successfully!');
+                        // Hide the form and show the confirmation message
+                        contactForm.style.display = 'none';
+                        confirmationMessage.style.display = 'block';
+                        confirmationMessage.textContent = 'Thank you for your message! We will get back to you shortly.';
+                        
+                        // Reset the form and button after a short delay
+                        setTimeout(() => {
+                            confirmationMessage.style.display = 'none';
+                            contactForm.style.display = 'block';
+                            contactForm.reset();
+                            submitButton.textContent = 'SEND MESSAGE';
+                            submitButton.disabled = false;
+                        }, 5000); // Message disappears after 5 seconds
+                    })
+                    .catch((err) => {
+                        console.error('Email failed to send:', err);
+                        // Show an error message
+                        confirmationMessage.style.display = 'block';
+                        confirmationMessage.textContent = 'Sorry, something went wrong. Please try again later.';
+                        confirmationMessage.classList.remove('text-green-600', 'bg-green-50');
+                        confirmationMessage.classList.add('text-red-600', 'bg-red-50');
+                        
+                        // Reset the button
+                        submitButton.textContent = 'SEND MESSAGE';
+                        submitButton.disabled = false;
+                    });
             });
         });
     </script>
