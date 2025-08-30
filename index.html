@@ -520,8 +520,20 @@
         <section id="hero" class="relative h-screen flex items-center text-white overflow-hidden px-4 sm:px-6 lg:px-8">
 
             <!-- Background Video -->
-            <img src="assets/bghero.jpg" alt="NConnect hero background"
-                class="absolute inset-0 w-full h-full object-cover z-0" />
+            <video 
+    autoplay 
+    loop 
+    muted 
+    playsinline 
+    preload="metadata"
+    poster="assets/bghero.jpg"
+    class="absolute inset-0 w-full h-full object-cover z-0">
+    <source src="assets/vido.webm" type="video/webm">
+    <source src="assets/video.mp4" type="video/mp4">
+    <!-- Fallback image for unsupported browsers -->
+    <img src="assets/bghero.jpg" alt="NConnect hero background"
+         class="absolute inset-0 w-full h-full object-cover z-0" />
+</video>
 
             <!-- Gradient Overlay -->
             <div class="absolute inset-0 overlay-hero-gradient z-10"></div>
@@ -1344,6 +1356,7 @@
 </body>
 
 </html>
+
 
 
 
